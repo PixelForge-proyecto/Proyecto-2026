@@ -1,0 +1,12 @@
+CHANGE REPLICATION SOURCE TO
+  SOURCE_HOST='Translogistica_primario',
+  SOURCE_USER='replicador',
+  SOURCE_PASSWORD='contrarepli',
+  SOURCE_AUTO_POSITION=1,
+  SOURCE_SSL=1;
+start replica;
+show replica status;
+-- consulta SELECT * FROM Replicacion_Translogistica.prueba_proxy;
+
+
+

@@ -1,0 +1,9 @@
+select @@hostname;
+select @@hostname FOR UPDATE;
+Use Replicacion_Translogistica;
+CREATE TABLE IF NOT EXISTS prueba_proxy (id INT PRIMARY KEY AUTO_INCREMENT, texto VARCHAR(50));
+INSERT INTO  prueba_proxy (texto) VALUES ('hola desde proxysql2');
+SELECT @@hostname, texto FROM prueba11;
+insert into prueba11 (id, texto) Values (1, 'hola mundo');
+select @@hostname, id from clientes;
+--el "@@hostname" es para que te diga que servidor respondió la solicitud generada
