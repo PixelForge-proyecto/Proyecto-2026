@@ -1,0 +1,19 @@
+# Variables privadas (la .env.docker vacía puede figurar como legado del repo)
+.env
+.env.*
+!.env.example
+!.env.docker.example
+**/.env
+**/.env.*
+!**/.env.example
+**/vendor/
+**/node_modules/
+*.sql
+*.sql.gz
+*.key
+*.pem
+*.p12
+*.bak
+*.tar.gz
+*.zip
+**/storage/logs/*.log
