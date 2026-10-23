@@ -1,0 +1,97 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import './translogistica.css';
+
+:root {
+    --translogistica-azul: #081a33;
+    --translogistica-azul-claro: #12365f;
+    --translogistica-dorado: #f2b705;
+    --translogistica-blanco: #ffffff;
+    --translogistica-gris: #f4f6f8;
+    --translogistica-texto: #202833;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--translogistica-texto);
+    background-color: var(--translogistica-blanco);
+}
+
+.logo-container {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.navbar-logo {
+    width: auto;
+    height: 45px;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .logo-container {
+        padding: 3px 8px;
+    }
+
+    .navbar-logo {
+        height: 38px;
+    }
+}
+
+/* Pantalla de inicio de sesión */
+
+.login-page {
+    min-height: 100vh;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    background-color: #082b4c;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+    padding: 32px;
+    color: #082b4c;
+    background-color: #ffffff;
+    border-top: 6px solid #ffda24;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+}
+
+.login-logo {
+    display: block;
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    margin: 0 auto 28px;
+}
+
+.login-card .form-control {
+    padding: 12px;
+}
+
+.login-card .btn-warning {
+    padding: 12px;
+    color: #082b4c;
+    background-color: #ffda24;
+    border-color: #ffda24;
+}
+
+.login-card a {
+    color: #082b4c;
+}
+
+@media (max-width: 576px) {
+    .login-page {
+        padding: 16px;
+    }
+
+    .login-card {
+        padding: 24px;
+    }
+}
