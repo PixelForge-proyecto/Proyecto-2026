@@ -1,4 +1,4 @@
-# Variables privadas (la .env.docker vacía puede figurar como legado del repo)
+# Archivos locales y secretos
 .env
 .env.*
 !.env.example
@@ -8,8 +8,6 @@
 !**/.env.example
 **/vendor/
 **/node_modules/
-*.sql
-*.sql.gz
 *.key
 *.pem
 *.p12
@@ -17,3 +15,7 @@
 *.tar.gz
 *.zip
 **/storage/logs/*.log
+# Respaldos SQL (los scripts versionados de BD SI se permiten)
+backup_*.sql
+dump_*.sql
+**/respaldos/
