@@ -1,19 +1,23 @@
-services:
+# Translogística / laboratorio VMware — MySQL 8.4 todavía es temporal.
+# La base de datos definitiva, su replicación y ProxySQL están pendientes.
+name: pixelforge
 
+services:
   web:
     build:
-      context: ./apache
+      context: ./2° Entrega/Programación/Despliegue-Laravel-Docker/apache
     container_name: pixelforge-web
     ports:
       - "80:80"
     volumes:
-      - ./app:/var/www/html
+      - "./2° Entrega/Programación/Despliegue-Laravel-Docker/app-nueva:/var/www/html:Z"
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
 
   db:
+    # Servicio EXISTENTE del laboratorio, NO la base de datos final.
     image: mysql:8.4
     container_name: pixelforge-db
     env_file:
@@ -22,7 +26,7 @@ services:
       - mysql_data:/var/lib/mysql
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD || exit 1"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 10
