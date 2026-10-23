@@ -1,0 +1,71 @@
+
+services:
+
+  translogistica_primario:
+    image: mysql:8.0.30-debian
+    container_name: translogistica_primario
+    hostname: translogistica_primario
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    command: >
+      --server-id=1
+      --log-bin=mysql-bin
+      --gtid_mode=ON
+      --enforce-gtid-consistency=ON
+      --log_replica_updates=ON
+      --binlog_format=ROW
+    ports:
+      - "3307:3306"
+    volumes:
+      - datos_primario:/var/lib/mysql
+    networks:
+      - reddecontenedores
+
+  translogistica_secundario:
+    image: mysql:8.0.30-debian
+    container_name: translogistica_secundario
+    hostname: translogistica_secundario
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - translogistica_primario
+    command: >
+      --server-id=2
+      --relay-log=mysql-relay-bin
+      --gtid_mode=ON
+      --enforce-gtid-consistency=ON
+      --log_replica_updates=ON
+      --read-only=ON
+      --log-bin=mysql-bin
+      --binlog-format=row
+      --binlog-expire-logs-seconds=604800
+    ports:
+      - "3308:3306"
+    volumes:
+      - datos_secundario:/var/lib/mysql
+    networks:
+      - reddecontenedores
+
+  proxysql:
+    image: proxysql/proxysql:2.7.3
+    container_name: proxysql
+    ports:
+      - "6033:6033"   # Laravel se conecta aquí
+      - "6032:6032"   # Administración de ProxySQL
+    volumes:
+      - ./proxysql.cnf:/etc/proxysql.cnf:ro
+      - proxysql:/var/lib/proxysql
+    networks:
+      - reddecontenedores
+    restart: always
+
+volumes:
+  datos_primario:
+  datos_secundario:
+  proxysql:
+
+networks:
+  reddecontenedores:
+    driver: bridge
+
+

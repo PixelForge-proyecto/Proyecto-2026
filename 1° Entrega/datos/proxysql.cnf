@@ -1,0 +1,92 @@
+datadir="/var/lib/proxysql"
+
+admin_variables=
+{
+    admin_credentials="admin:CAMBIAR_admin_pass;radmin:CAMBIAR_radmin_pass"
+    mysql_ifaces="0.0.0.0:6032"
+}
+
+mysql_variables=
+{
+    threads=4
+    max_connections=2048
+    interfaces="0.0.0.0:6033"
+    default_schema="translogistica"
+    monitor_username="monitor"
+    monitor_password="monitor_pass"
+    monitor_connect_interval=2000
+    monitor_ping_interval=2000
+    monitor_read_only_interval=1500
+    monitor_read_only_timeout=500
+}
+
+mysql_servers =
+(
+    {
+        address="Translogistica_primario"
+        port=3306
+        hostgroup=10
+        max_connections=100
+        comment="primario"
+    },
+    {
+        address="Translogistica_secundario"
+        port=3306
+        hostgroup=20
+        max_connections=100
+        comment="secundario"
+    }
+)
+
+mysql_replication_hostgroups =
+(
+    {
+        writer_hostgroup=10
+        reader_hostgroup=20
+        check_type="read_only"
+        comment="translogistica"
+    }
+)
+
+mysql_users =
+(
+    {
+        username="laravel"
+        password="laravel_pass"
+        default_hostgroup=10
+        default_schema="translogistica"
+        active=1
+    }
+)
+
+mysql_query_rules =
+(
+    {
+        rule_id=1
+        active=1
+        match_pattern="^CALL esc_.*"
+        destination_hostgroup=10
+        apply=1
+    },
+    {
+        rule_id=2
+        active=1
+        match_pattern="^CALL lec_.*"
+        destination_hostgroup=20
+        apply=1
+    },
+    {
+        rule_id=3
+        active=1
+        match_pattern="(?i)^select.*"
+        destination_hostgroup=20
+        apply=1
+    },
+    {
+        rule_id=4
+        active=1
+        match_pattern="(?i)^(insert|update|delete).*"
+        destination_hostgroup=10
+        apply=1
+    }
+)
