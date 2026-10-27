@@ -22,14 +22,14 @@ Documentación académica de la infraestructura Microsoft del proyecto Translog�
 - Servicios AD DS y DNS operativos
 - Conexión RDP verificada desde la red de administración
 
-### Evidencias previstas
+### Evidencias incorporadas
 - `Equipos_AD.csv`
 - `Grupos_AD.csv`
 - `OU_ActiveDirectory.csv`
-- `GPO_Empleados.html`
+- `GPO_Empleados.html` (versión HTML de consulta pública: conserva los datos del reporte y omite el código incrustado de Windows)
 - `Permisos_NTFS_Translogistica.txt`
 
-> Las evidencias se incorporarán tras revisar que no expongan datos sensibles. La creación de este README no certifica que esos archivos ya hayan sido subidos.
+> Los cinco archivos de evidencias fueron incorporados al repositorio después de una revisión de contenido. Los CSV y el TXT preservan los datos de los originales; el HTML de GPO es una versión depurada para consulta pública, no una exportación restaurable.
 
 ### Validaciones pendientes
 - Comprobación de aplicación efectiva de GPO y permisos usando una estación de trabajo del dominio
