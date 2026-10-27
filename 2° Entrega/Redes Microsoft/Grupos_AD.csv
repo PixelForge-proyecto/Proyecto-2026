@@ -1,0 +1,4 @@
+"Name","GroupScope","DistinguishedName"
+"GG_Administradores","Global","CN=GG_Administradores,OU=OU_Grupos,OU=OU_PixelForge,DC=pixelforge,DC=test"
+"GG_Infraestructura","Global","CN=GG_Infraestructura,OU=OU_Grupos,OU=OU_Translogistica,DC=pixelforge,DC=test"
+"GG_Usuarios","Global","CN=GG_Usuarios,OU=OU_Grupos,OU=OU_PixelForge,DC=pixelforge,DC=test"
