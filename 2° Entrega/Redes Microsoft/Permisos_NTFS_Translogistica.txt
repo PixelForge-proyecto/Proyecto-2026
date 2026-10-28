@@ -1,0 +1,40 @@
+================================
+CARPETA: C:\Translogistica\Recursos_Demo
+================================
+C:\Translogistica\Recursos_Demo PIXELFORGE0\GG_TL_Operadores:(RX)
+                                PIXELFORGE0\GG_TL_Administradores:(RX)
+                                PIXELFORGE0\GG_TL_Vendedores:(RX)
+                                BUILTIN\Administradores:(OI)(CI)(F)
+                                NT AUTHORITY\SYSTEM:(OI)(CI)(F)
+
+Se procesaron correctamente 1 archivos; error al procesar 0 archivos
+
+================================
+CARPETA: C:\Translogistica\Recursos_Demo\Ventas
+================================
+C:\Translogistica\Recursos_Demo\Ventas PIXELFORGE0\GG_TL_Administradores:(OI)(CI)(M)
+                                       PIXELFORGE0\GG_TL_Vendedores:(OI)(CI)(M)
+                                       BUILTIN\Administradores:(OI)(CI)(F)
+                                       NT AUTHORITY\SYSTEM:(OI)(CI)(F)
+
+Se procesaron correctamente 1 archivos; error al procesar 0 archivos
+
+================================
+CARPETA: C:\Translogistica\Recursos_Demo\Administracion
+================================
+C:\Translogistica\Recursos_Demo\Administracion PIXELFORGE0\GG_TL_Administradores:(OI)(CI)(M)
+                                               BUILTIN\Administradores:(OI)(CI)(F)
+                                               NT AUTHORITY\SYSTEM:(OI)(CI)(F)
+
+Se procesaron correctamente 1 archivos; error al procesar 0 archivos
+
+================================
+CARPETA: C:\Translogistica\Recursos_Demo\Operaciones
+================================
+C:\Translogistica\Recursos_Demo\Operaciones PIXELFORGE0\GG_TL_Administradores:(OI)(CI)(M)
+                                            PIXELFORGE0\GG_TL_Operadores:(OI)(CI)(M)
+                                            BUILTIN\Administradores:(OI)(CI)(F)
+                                            NT AUTHORITY\SYSTEM:(OI)(CI)(F)
+
+Se procesaron correctamente 1 archivos; error al procesar 0 archivos
+
