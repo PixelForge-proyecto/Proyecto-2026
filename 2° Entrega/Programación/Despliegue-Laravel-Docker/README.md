@@ -1,18 +1,26 @@
 # Translogística — Despliegue Laravel + Docker
 
-Área Redes Linux, segunda entrega, equipo PixelForge.
+**Segunda entrega · Actualización documental: 28/10/2026**
 
-**Estado validado en VMware (23/10/2026):** AlmaLinux 9, PHP 8.3.33, Laravel 13.32.0, Apache en puerto 80, contenedor `pixelforge-web` visible desde Windows mediante OPNsense (APP `192.168.30.2/27`). MySQL 8.4 `pixelforge-db` continúa activo. Aún falta validar el login y conectar la nueva base de datos, replicación y ProxySQL.
+> **ATENCIÓN:** el `docker-compose.yml` de esta carpeta corresponde al laboratorio **anterior** (Apache + MySQL 8.4). La arquitectura verificada el 28/10/2026 usa Nginx, Laravel, ProxySQL y MySQL 8.0.30 primario/secundario. **No usar este Compose para reemplazar el despliegue activo.**
 
-## Archivos de infraestructura
-- `apache/Dockerfile`: imagen PHP/Apache, extensiones y Composer.
-- `docker-compose.yml`: web y MySQL del laboratorio; persiste `mysql_data`.
-- `.env.docker.example`: plantilla de variables, sin contraseñas reales.
-- `app-nueva/`: **código Laravel que debe agregarse desde el ZIP de publicación**; no se considera subido hasta completar ese commit.
+El estado de integración, las correcciones comprobadas y la lista de archivos finales aún no sincronizados se encuentran en:
 
-## Despliegue
-En un entorno NUEVO, preparar `app-nueva/.env` desde `.env.example`, `.env.docker` con claves distintas, instalar dependencias con Composer, generar `APP_KEY`, dar permisos de escritura mínimos a `storage` y `bootstrap/cache` y desplegar con `docker compose up -d --build`.
+[**Actualización de Programación — 28/10/2026**](../ACTUALIZACION_IMPLEMENTACION_2026-10-28.md)
 
-**Importante:** no ejecutar esos comandos a ciegas sobre la VM ya desplegada, donde los contenedores están funcionando. No subir `.env`, claves ni respaldos. No ejecutar `docker compose down -v`. El volumen MySQL 8.4 no se puede montar directamente en un servidor MySQL 8.0.30.
+## Contenido de esta carpeta
+- `app-nueva/`: código Laravel versionado en GitHub; debe compararse con la copia exacta que opera en la VM antes de afirmar que están sincronizados.
+- `app-nueva/public/.htaccess`: reglas de reescritura válidas para Laravel (se revisó tras un incidente con una copia corrupta).
+- `apache/Dockerfile`: imagen PHP/Apache usada en el laboratorio anterior.
+- `docker-compose.yml`: Compose histórico que publica `pixelforge-web` y usa `pixelforge-db` (MySQL 8.4).
+- `.env.docker.example`: plantilla sin credenciales reales para ese laboratorio histórico.
 
-La separación interna por redes Docker (frontend, appdb y datos) y la integración final de ProxySQL todavía están pendientes. El código que contiene la página Laravel se añadirá en un commit separado desde GitHub Desktop.
+## Estado de la nueva integración, observado en VMware
+- AlmaLinux 9 minimal; Laravel **13.32.0**, PHP **8.3.33**.
+- Cadena de red: OPNsense → WAF `pixelforge-waf` → `tl_waf_bridge` → Nginx (`tl-nginx-backend:80`) → Laravel → ProxySQL `proxysql:6033` → MySQL 8.0.30.
+- Nginx del proyecto vinculado en el host a `127.0.0.1:8088:80`, sin publicación directa a la LAN.
+- Se comprobaron carga visual y HTTP 200. `/login` responde, pero las pruebas integrales de autenticación/roles están pendientes.
+- Los cambios de Compose y código que solo están en `/home/cynthia/translogistica_nueva/Translogistica-Entrega/` **aún requieren sincronización desde la VM**.
+
+## Precauciones
+No publicar `.env`, contraseñas, `APP_KEY`, datos reales ni respaldos sin sanear. No ejecutar `docker compose down -v` y no conectar el volumen MySQL 8.4 directamente a MySQL 8.0.30. En despliegues nuevos, revisar cuidadosamente las variables, imágenes y rutas según la versión final del paquete.
