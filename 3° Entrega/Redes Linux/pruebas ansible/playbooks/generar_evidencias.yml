@@ -1,0 +1,52 @@
+---
+- name: Generar evidencias Translogistica
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Consultar rutas de red
+      ansible.builtin.command: ip -4 route
+      register: rutas
+      changed_when: false
+
+    - name: Consultar Docker
+      ansible.builtin.command: docker --version
+      register: docker
+      changed_when: false
+      failed_when: false
+
+    - name: Consultar SSH
+      ansible.builtin.command: systemctl is-active sshd
+      register: ssh
+      changed_when: false
+      failed_when: false
+
+    - name: Crear carpeta local de evidencias
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../evidencias"
+        state: directory
+        mode: '0700'
+      delegate_to: localhost
+      become: false
+
+    - name: Guardar informe del servidor
+      ansible.builtin.copy:
+        dest: "{{ playbook_dir }}/../evidencias/{{ inventory_hostname }}_informe.txt"
+        mode: '0600'
+        content: |
+          TRANSLOGISTICA - INFORME DE INFRAESTRUCTURA
+
+          Servidor: {{ ansible_facts['hostname'] }}
+          Sistema: {{ ansible_facts['distribution'] }}
+          Version: {{ ansible_facts['distribution_version'] }}
+          RAM: {{ ansible_facts['memtotal_mb'] }} MB
+          CPU: {{ ansible_facts['processor_vcpus'] }}
+
+          RUTAS DE RED:
+          {{ rutas.stdout }}
+
+          DOCKER:
+          {{ docker.stdout if docker.rc == 0 and 'Docker version' in docker.stdout else 'Docker no disponible en este equipo' }}
+
+          SSH:
+          {{ ssh.stdout | default('No disponible', true) }}
