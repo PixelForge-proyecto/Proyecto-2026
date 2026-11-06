@@ -1,0 +1,44 @@
+---
+- name: Prechequeo de despliegue Translogistica
+  hosts: servidores_linux
+  gather_facts: true
+
+  tasks:
+    - name: Comprobar espacio disponible
+      ansible.builtin.command: df -h /
+      register: disco
+      changed_when: false
+
+    - name: Mostrar espacio disponible
+      ansible.builtin.debug:
+        var: disco.stdout_lines
+
+    - name: Consultar imagenes Docker
+      ansible.builtin.command: docker images
+      register: imagenes
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar imagenes
+      ansible.builtin.debug:
+        msg: "{{ imagenes.stdout_lines if imagenes.rc == 0 else imagenes.stderr_lines }}"
+
+    - name: Consultar redes Docker
+      ansible.builtin.command: docker network ls
+      register: redes
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar redes
+      ansible.builtin.debug:
+        msg: "{{ redes.stdout_lines if redes.rc == 0 else redes.stderr_lines }}"
+
+    - name: Consultar volumenes Docker
+      ansible.builtin.command: docker volume ls
+      register: volumenes
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar volumenes
+      ansible.builtin.debug:
+        msg: "{{ volumenes.stdout_lines if volumenes.rc == 0 else volumenes.stderr_lines }}"
