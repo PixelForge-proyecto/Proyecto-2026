@@ -33,3 +33,13 @@
     - name: Mostrar estado del servicio
       ansible.builtin.debug:
         msg: "{{ docker_service.stdout | default('Sin respuesta') }}"
+
+    - name: Consultar contenedores existentes
+      ansible.builtin.command: docker ps -a
+      register: contenedores
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar contenedores o problema de acceso
+      ansible.builtin.debug:
+        msg: "{{ contenedores.stdout_lines if contenedores.rc == 0 else contenedores.stderr_lines }}"
