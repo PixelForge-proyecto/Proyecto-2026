@@ -12,6 +12,7 @@ Ejercicios de Ansible preparados para la tercera entrega de Redes Linux/POSIX.
 - `playbooks/verificacion_utu.yml`: verifica SO, memoria, rutas, presencia de Docker y servicio SSH (solo lectura).
 - `playbooks/verificar_docker_utu.yml`: comprueba versión de Docker, Compose y servicio Docker (solo lectura).
 - `playbooks/generar_evidencias.yml`: genera un informe TXT local con información del sistema, red, Docker y SSH. Los informes generados deben revisarse antes de compartirse.
+- `playbooks/prechequeo_despliegue.yml`: consulta espacio en disco, imágenes, redes y volúmenes Docker sin cambios en el servidor.
 - `inventarios/laboratorio.ini`: equipo WSL local.
 - `inventarios/vmware.ini`: plantilla para la VM de laboratorio, **sin IP ni usuario reales**.
 - `inventarios/utu.ini`: plantilla para servidores Linux de UTU, **sin IP ni usuario reales**.
@@ -26,6 +27,14 @@ ansible-playbook -i inventarios/laboratorio.ini playbooks/diagnostico.yml
 ansible-playbook -i inventarios/laboratorio.ini playbooks/auditoria.yml
 ansible-playbook -i inventarios/laboratorio.ini playbooks/preparar_directorios.yml --check
 ```
+
+## Prechequeo del despliegue
+
+```bash
+ansible-playbook -i inventarios/vmware.ini playbooks/prechequeo_despliegue.yml --syntax-check
+```
+
+Se validó la sintaxis en WSL el 06/11/2026. **No se ha ejecutado aún sobre Proxmox UTU**.
 
 ## Pruebas sobre VMware / UTU
 
