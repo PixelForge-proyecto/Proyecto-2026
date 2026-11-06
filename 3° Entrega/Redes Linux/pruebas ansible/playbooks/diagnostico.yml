@@ -1,0 +1,18 @@
+---
+- name: Diagnostico de infraestructura Translogistica
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  tasks:
+    - name: Mostrar sistema operativo
+      ansible.builtin.debug:
+        msg: "Sistema: {{ ansible_facts['distribution'] }}"
+
+    - name: Mostrar version del sistema
+      ansible.builtin.debug:
+        msg: "Version: {{ ansible_facts['distribution_version'] }}"
+
+    - name: Mostrar nombre del servidor
+      ansible.builtin.debug:
+        msg: "Servidor: {{ ansible_facts['hostname'] }}"
