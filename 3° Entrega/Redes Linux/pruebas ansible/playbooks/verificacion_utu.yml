@@ -1,0 +1,42 @@
+---
+- name: Verificacion previa Translogistica
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Mostrar informacion del sistema
+      ansible.builtin.debug:
+        msg:
+          - "Servidor: {{ ansible_facts['hostname'] }}"
+          - "SO: {{ ansible_facts['distribution'] }}"
+          - "Version: {{ ansible_facts['distribution_version'] }}"
+          - "RAM: {{ ansible_facts['memtotal_mb'] }} MB"
+
+    - name: Consultar rutas de red
+      ansible.builtin.command: ip route
+      register: rutas
+      changed_when: false
+
+    - name: Mostrar rutas
+      ansible.builtin.debug:
+        var: rutas.stdout_lines
+
+    - name: Consultar Docker
+      ansible.builtin.command: docker --version
+      register: docker
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar estado de Docker
+      ansible.builtin.debug:
+        msg: "{{ docker.stdout if docker.rc == 0 else 'Docker no instalado' }}"
+
+    - name: Comprobar servicio SSH
+      ansible.builtin.command: systemctl is-active sshd
+      register: ssh
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar estado SSH
+      ansible.builtin.debug:
+        msg: "{{ ssh.stdout | default('Sin respuesta') }}"
