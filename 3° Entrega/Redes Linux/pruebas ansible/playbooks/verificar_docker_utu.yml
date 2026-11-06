@@ -1,0 +1,35 @@
+---
+- name: Verificar Docker en Translogistica
+  hosts: servidores_linux
+  gather_facts: true
+
+  tasks:
+    - name: Verificar version de Docker
+      ansible.builtin.command: docker --version
+      register: docker_version
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar version de Docker
+      ansible.builtin.debug:
+        msg: "{{ docker_version.stdout | default('') if docker_version.rc == 0 else 'Docker no disponible' }}"
+
+    - name: Verificar Docker Compose
+      ansible.builtin.command: docker compose version
+      register: compose_version
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar resultado Compose
+      ansible.builtin.debug:
+        msg: "{{ compose_version.stdout | default('') if compose_version.rc == 0 else 'Docker Compose no disponible' }}"
+
+    - name: Consultar servicio Docker
+      ansible.builtin.command: systemctl is-active docker
+      register: docker_service
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar estado del servicio
+      ansible.builtin.debug:
+        msg: "{{ docker_service.stdout | default('Sin respuesta') }}"
