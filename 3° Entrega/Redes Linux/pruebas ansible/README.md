@@ -9,6 +9,8 @@ Ejercicios de Ansible preparados para la tercera entrega de Redes Linux/POSIX.
 - `playbooks/diagnostico.yml`: obtiene datos básicos del entorno local.
 - `playbooks/auditoria.yml`: audita SO, RAM, CPU, Docker y presencia de `sshd_config`.
 - `playbooks/preparar_directorios.yml`: demuestra ejecución idempotente al crear `evidencias/`.
+- `playbooks/verificacion_utu.yml`: verifica SO, memoria, rutas, presencia de Docker y servicio SSH (solo lectura).
+- `playbooks/verificar_docker_utu.yml`: comprueba versión de Docker, Compose y servicio Docker (solo lectura).
 - `inventarios/laboratorio.ini`: equipo WSL local.
 - `inventarios/vmware.ini`: plantilla para la VM de laboratorio, **sin IP ni usuario reales**.
 - `inventarios/utu.ini`: plantilla para servidores Linux de UTU, **sin IP ni usuario reales**.
@@ -31,7 +33,19 @@ ansible-playbook -i inventarios/laboratorio.ini playbooks/preparar_directorios.y
 3. Probar la conexión: `ansible -i inventarios/vmware.ini servidores_linux -m ping`.
 4. Ejecutar auditoría: `ansible-playbook -i inventarios/vmware.ini playbooks/auditoria.yml`.
 
+Antes de conectarse remotamente, verificar solo la sintaxis (no ejecuta cambios):
+
+```bash
+ansible-playbook -i inventarios/vmware.ini playbooks/verificar_docker_utu.yml --syntax-check
+ansible-playbook -i inventarios/laboratorio.ini playbooks/verificacion_utu.yml --syntax-check
+```
+
 La UTU requiere acceso desde una máquina autorizada dentro de su red. No se deben subir claves privadas, contraseñas, archivos `.env` ni secretos a este repositorio público.
+
+## Evidencia de las nuevas pruebas (06/11/2026)
+
+- `verificacion_utu.yml` se ejecutó en WSL: `ok=8`, `changed=0`, `failed=0`.
+- `verificar_docker_utu.yml` pasó la verificación `--syntax-check` en WSL. Aún **no se ejecutó en Proxmox UTU**.
 
 ## Evidencia del laboratorio
 
