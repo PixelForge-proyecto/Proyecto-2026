@@ -1,0 +1,83 @@
+---
+- name: Inspeccionar despliegue existente de Translogistica sin cambios
+  hosts: servidores_linux
+  gather_facts: true
+
+  vars:
+    ruta_referencia: /home/cynthia/translogistica_nueva/Translogistica-Entrega
+
+  tasks:
+    - name: Comprobar existencia de la carpeta del despliegue
+      ansible.builtin.stat:
+        path: "{{ ruta_referencia }}"
+      register: dir_proyecto
+
+    - name: Localizar archivos de infraestructura por nombre
+      ansible.builtin.find:
+        paths: "{{ ruta_referencia }}"
+        recurse: true
+        depth: 4
+        file_type: file
+        patterns:
+          - "*compose*.yml"
+          - "*compose*.yaml"
+          - "Dockerfile*"
+          - "*.conf"
+          - "*.cnf"
+        excludes:
+          - ".git"
+          - "vendor"
+          - "node_modules"
+      register: archivos
+      when: dir_proyecto.stat.isdir | default(false)
+
+    - name: Consultar contenedores sin mostrar variables ni contrasenas
+      ansible.builtin.command:
+        argv:
+          - docker
+          - ps
+          - -a
+          - --format
+          - "{% raw %}{{.Names}} | {{.Image}} | {{.Status}} | {{.Ports}}{% endraw %}"
+      register: contenedores
+      changed_when: false
+      failed_when: false
+
+    - name: Consultar proyectos Compose existentes
+      ansible.builtin.command: docker compose ls --all
+      register: proyectos_compose
+      changed_when: false
+      failed_when: false
+
+    - name: Crear carpeta de informes en el equipo de control
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../evidencias"
+        state: directory
+        mode: "0700"
+      delegate_to: localhost
+      become: false
+
+    - name: Guardar inventario local sin secretos
+      ansible.builtin.copy:
+        dest: "{{ playbook_dir }}/../evidencias/{{ inventory_hostname }}_inventario_despliegue.txt"
+        mode: "0600"
+        content: |
+          TRANSLOGISTICA - INVENTARIO DEL DESPLIEGUE (SOLO LECTURA)
+          Host: {{ ansible_facts['hostname'] }}
+          SO: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}
+          Carpeta de referencia encontrada: {{ dir_proyecto.stat.isdir | default(false) }}
+
+          ARCHIVOS DE CONFIGURACION (SOLO NOMBRES):
+          {{ (archivos.files | default([]) | map(attribute='path') | list) | join('\n') }}
+
+          CONTENEDORES (NOMBRE, IMAGEN, ESTADO Y PUERTOS):
+          {{ contenedores.stdout if contenedores.rc == 0 else 'No se pudo consultar Docker con el usuario actual' }}
+
+          PROYECTOS DOCKER COMPOSE:
+          {{ proyectos_compose.stdout if proyectos_compose.rc == 0 else 'No se pudo consultar Docker Compose con el usuario actual' }}
+      delegate_to: localhost
+      become: false
+
+    - name: Mostrar ruta del informe generado
+      ansible.builtin.debug:
+        msg: "{{ playbook_dir }}/../evidencias/{{ inventory_hostname }}_inventario_despliegue.txt"
