@@ -1,0 +1,33 @@
+---
+- name: Auditoria inicial Translogistica
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Informacion del servidor
+      ansible.builtin.debug:
+        msg:
+          - "Servidor: {{ ansible_facts['hostname'] }}"
+          - "SO: {{ ansible_facts['distribution'] }}"
+          - "Version: {{ ansible_facts['distribution_version'] }}"
+          - "RAM: {{ ansible_facts['memtotal_mb'] }} MB"
+          - "CPU: {{ ansible_facts['processor_vcpus'] }}"
+
+    - name: Comprobar Docker
+      ansible.builtin.command: docker --version
+      register: docker_result
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar resultado Docker
+      ansible.builtin.debug:
+        msg: "{{ docker_result.stdout | default('') if docker_result.rc == 0 else 'Docker no disponible' }}"
+
+    - name: Comprobar configuracion SSH
+      ansible.builtin.stat:
+        path: /etc/ssh/sshd_config
+      register: ssh_config
+
+    - name: Mostrar resultado SSH
+      ansible.builtin.debug:
+        msg: "Archivo SSH presente: {{ ssh_config.stat.exists }}"
