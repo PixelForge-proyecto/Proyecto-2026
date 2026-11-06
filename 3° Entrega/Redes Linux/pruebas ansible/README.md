@@ -1,0 +1,38 @@
+# Pruebas Ansible — Translogística
+
+Ejercicios de Ansible preparados para la tercera entrega de Redes Linux/POSIX.
+
+> **Origen:** estos archivos fueron reconstruidos a partir de los comandos y resultados de las pruebas de WSL/VMware. **No son una copia binaria del respaldo** `translogistica-ansible.tar.gz` almacenado en la PC. Para conservar ese archivo exacto, subirlo desde la computadora.
+
+## Contenido
+
+- `playbooks/diagnostico.yml`: obtiene datos básicos del entorno local.
+- `playbooks/auditoria.yml`: audita SO, RAM, CPU, Docker y presencia de `sshd_config`.
+- `playbooks/preparar_directorios.yml`: demuestra ejecución idempotente al crear `evidencias/`.
+- `inventarios/laboratorio.ini`: equipo WSL local.
+- `inventarios/vmware.ini`: plantilla para la VM de laboratorio, **sin IP ni usuario reales**.
+- `inventarios/utu.ini`: plantilla para servidores Linux de UTU, **sin IP ni usuario reales**.
+
+## Pruebas locales
+
+Desde la carpeta `pruebas ansible`, con `ansible-core` instalado:
+
+```bash
+ansible -i inventarios/laboratorio.ini laboratorio_local -m ping
+ansible-playbook -i inventarios/laboratorio.ini playbooks/diagnostico.yml
+ansible-playbook -i inventarios/laboratorio.ini playbooks/auditoria.yml
+ansible-playbook -i inventarios/laboratorio.ini playbooks/preparar_directorios.yml --check
+```
+
+## Pruebas sobre VMware / UTU
+
+1. Editar el inventario correspondiente con la IP y el usuario SSH reales.
+2. Configurar un par de claves SSH en el equipo de control y autorizar la **clave pública** en el servidor.
+3. Probar la conexión: `ansible -i inventarios/vmware.ini servidores_linux -m ping`.
+4. Ejecutar auditoría: `ansible-playbook -i inventarios/vmware.ini playbooks/auditoria.yml`.
+
+La UTU requiere acceso desde una máquina autorizada dentro de su red. No se deben subir claves privadas, contraseñas, archivos `.env` ni secretos a este repositorio público.
+
+## Evidencia del laboratorio
+
+Las pruebas previas desde WSL hacia AlmaLinux de VMware completaron la auditoría con `ok=6`, `changed=0`, `failed=0`.
