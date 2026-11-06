@@ -13,6 +13,8 @@ Ejercicios de Ansible preparados para la tercera entrega de Redes Linux/POSIX.
 - `playbooks/verificar_docker_utu.yml`: comprueba versión de Docker, Compose y servicio Docker (solo lectura).
 - `playbooks/generar_evidencias.yml`: genera un informe TXT local con información del sistema, red, Docker y SSH. Los informes generados deben revisarse antes de compartirse.
 - `playbooks/prechequeo_despliegue.yml`: consulta espacio en disco, imágenes, redes y volúmenes Docker sin cambios en el servidor.
+- `playbooks/inspeccionar_despliegue_vmware.yml`: genera un informe local de contenedores, proyectos Compose y rutas de archivos del servidor VMware, **sin consultar variables de entorno ni secretos**.
+- `INFORME_INTEGRACION_2026-11-06.md`: resultados preliminares de revisión del nuevo ZIP y condiciones para integrarlo de forma segura.
 - `inventarios/laboratorio.ini`: equipo WSL local.
 - `inventarios/vmware.ini`: plantilla para la VM de laboratorio, **sin IP ni usuario reales**.
 - `inventarios/utu.ini`: plantilla para servidores Linux de UTU, **sin IP ni usuario reales**.
@@ -35,6 +37,16 @@ ansible-playbook -i inventarios/vmware.ini playbooks/prechequeo_despliegue.yml -
 ```
 
 Se validó la sintaxis en WSL el 06/11/2026. **No se ha ejecutado aún sobre Proxmox UTU**.
+
+## Integración de la entrega nueva
+
+Los paquetes recién recibidos se deben comparar contra el despliegue operativo de VMware antes de usarlos en Proxmox. El informe de inventario se genera **solo en WSL** y no debe publicarse sin revisar rutas y datos internos.
+
+```bash
+ansible-playbook -i inventarios/vmware.ini playbooks/inspeccionar_despliegue_vmware.yml --syntax-check
+ansible -i inventarios/vmware.ini servidores_linux -m ping
+ansible-playbook -i inventarios/vmware.ini playbooks/inspeccionar_despliegue_vmware.yml
+```
 
 ## Pruebas sobre VMware / UTU
 
