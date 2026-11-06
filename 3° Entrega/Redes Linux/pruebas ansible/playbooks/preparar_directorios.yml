@@ -1,0 +1,11 @@
+---
+- name: Preparar directorios Translogistica
+  hosts: laboratorio_local
+  gather_facts: false
+
+  tasks:
+    - name: Crear directorio de evidencias
+      ansible.builtin.file:
+        path: "{{ playbook_dir }}/../evidencias"
+        state: directory
+        mode: '0750'
