@@ -1,0 +1,14 @@
+# Datos privados fuera del repositorio
+/datos/*.csv
+*.zip
+*.xml
+*.json
+*.txt
+RespaldosGPO/
+Auditorias/
+evidencias_privadas/
+*.bak
+*.pfx
+*.key
+*.secret
+*.password
