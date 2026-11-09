@@ -1,0 +1,74 @@
+---
+- name: Validar nueva imagen Laravel
+  hosts: servidores_linux
+  gather_facts: false
+
+  vars:
+    imagen: translogistica-web:prueba-20261106
+
+  tasks:
+    - name: Comprobar version Laravel
+      ansible.builtin.command:
+        argv:
+          - docker
+          - run
+          - --rm
+          - --network
+          - none
+          - --entrypoint
+          - php
+          - "{{ imagen }}"
+          - /var/www/html/artisan
+          - --version
+      register: version
+      changed_when: false
+
+    - name: Verificar extensiones PHP
+      ansible.builtin.command:
+        argv:
+          - docker
+          - run
+          - --rm
+          - --network
+          - none
+          - --entrypoint
+          - php
+          - "{{ imagen }}"
+          - -m
+      register: extensiones
+      changed_when: false
+
+    - name: Verificar rutas Laravel
+      ansible.builtin.command:
+        argv:
+          - docker
+          - run
+          - --rm
+          - --network
+          - none
+          - --entrypoint
+          - php
+          - "{{ imagen }}"
+          - /var/www/html/artisan
+          - route:list
+          - --except-vendor
+      register: rutas
+      changed_when: false
+
+    - name: Validar requisitos
+      ansible.builtin.assert:
+        that:
+          - "'Laravel Framework' in version.stdout"
+          - "'pdo_mysql' in extensiones.stdout"
+          - "'mbstring' in extensiones.stdout"
+          - "'intl' in extensiones.stdout"
+          - "'bcmath' in extensiones.stdout"
+          - "'zip' in extensiones.stdout"
+          - "'gd' in extensiones.stdout"
+          - "'panel/seguimientos' in rutas.stdout"
+        success_msg: "Validacion Laravel exitosa"
+        fail_msg: "Revisar imagen Laravel"
+
+    - name: Mostrar resultado
+      ansible.builtin.debug:
+        msg: "Imagen {{ imagen }} validada correctamente"
