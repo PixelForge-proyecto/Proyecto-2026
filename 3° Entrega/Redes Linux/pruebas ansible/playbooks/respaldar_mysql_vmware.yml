@@ -1,0 +1,50 @@
+---
+# Respaldo logico de la base translogistica en VMware.
+# Uso: ansible-playbook -i inventarios/vmware.ini playbooks/respaldar_mysql_vmware.yml
+# No modifica la BD ni los contenedores. Requiere docker accesible al usuario SSH.
+- name: Respaldo MySQL Translogistica VMware
+  hosts: servidores_linux
+  gather_facts: false
+
+  tasks:
+    - name: Comprobar que se eligio el host de VMware
+      ansible.builtin.assert:
+        that:
+          - inventory_hostname == 'pixelforge-linux'
+        fail_msg: "Este playbook se ha preparado para pixelforge-linux de VMware. No usar en UTU sin adaptarlo."
+
+    - name: Generar respaldo comprimido y comprobar GZIP
+      ansible.builtin.shell: |
+        set -euo pipefail
+        umask 077
+        mkdir -p "$HOME/respaldos-translogistica"
+        archivo="$HOME/respaldos-translogistica/translogistica_$(date +%Y%m%d_%H%M%S).sql.gz"
+        if docker exec translogistica-servidor-mysql-1 sh -c \
+          'MYSQL_PWD="$MYSQL_PASSWORD" mysqldump -u "$MYSQL_USER" --single-transaction --quick --no-tablespaces --set-gtid-purged=OFF translogistica' \
+          | gzip > "$archivo"; then
+          gzip -t "$archivo" || { rm -f "$archivo"; exit 1; }
+          printf '%s\n' "$archivo"
+        else
+          rm -f "$archivo"
+          exit 1
+        fi
+      args:
+        executable: /bin/bash
+      register: respaldo
+      changed_when: true
+      no_log: true
+
+    - name: Copiar el respaldo a WSL (carpeta privada)
+      ansible.builtin.fetch:
+        src: "{{ respaldo.stdout_lines[-1] }}"
+        dest: "{{ playbook_dir }}/../respaldos_privados/"
+        flat: true
+      register: copia
+      no_log: true
+
+    - name: Mostrar resultado
+      ansible.builtin.debug:
+        msg:
+          - "Respaldo MySQL creado y GZIP verificado en el servidor."
+          - "Copia transferida al equipo de control, en respaldos_privados."
+          - "Este procedimiento NO prueba la restauracion ni ejecuta respaldos periodicos."
