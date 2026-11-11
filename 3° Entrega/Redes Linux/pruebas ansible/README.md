@@ -81,3 +81,17 @@ En WSL se verificó `ok=6`, `changed=2`, `failed=0`. Los dos cambios fueron loca
 ## Evidencia del laboratorio
 
 Las pruebas previas desde WSL hacia AlmaLinux de VMware completaron la auditoría con `ok=6`, `changed=0`, `failed=0`.
+
+## Integración Windows–Linux: verificación de rp_filter (11/11/2026)
+
+En el laboratorio VMware se comprobó comunicación TCP 22 desde Windows hacia AlmaLinux y resolución DNS desde AlmaLinux hacia Windows. El tráfico dirigido a la interfaz Linux de la red de servidores no respondía por el filtrado estricto de ruta inversa cuando había un camino de retorno diferente. Tras cambiar temporalmente el valor de la interfaz correspondiente a 2 (modo flexible), el ping y TCP 22 desde Windows respondieron.
+
+Se guardó en AlmaLinux `/etc/sysctl.d/90-translogistica-rpfilter.conf` y se comprobó que `sysctl -p` devuelve el valor `2`. **Todavía no se validó la persistencia mediante reinicio**. Esta configuración es específica de las interfaces de VMware y no debe aplicarse sin revisión a UTU.
+
+El playbook `playbooks/verificar_rpfilter_vmware.yml` es **solo de lectura** y comprueba el valor activo y el archivo persistente. Para ejecutarlo desde WSL, con el inventario privado:
+
+```bash
+ansible-playbook -i inventarios/vmware.ini playbooks/verificar_rpfilter_vmware.yml
+```
+
+No se comparten IP, contraseñas ni capturas privadas de los servidores en el repositorio.
