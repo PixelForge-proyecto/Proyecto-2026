@@ -1,0 +1,39 @@
+---
+- name: Verificar correccion de rp_filter en VMware
+  hosts: servidores_linux
+  gather_facts: false
+
+  tasks:
+    - name: Comprobar que la interfaz ens33 existe
+      ansible.builtin.command:
+        argv: [ip, -o, link, show, dev, ens33]
+      register: interfaz
+      changed_when: false
+
+    - name: Consultar valor efectivo de rp_filter
+      ansible.builtin.command:
+        argv: [sysctl, -n, net.ipv4.conf.ens33.rp_filter]
+      register: valor
+      changed_when: false
+
+    - name: Leer archivo de configuracion persistente
+      ansible.builtin.command:
+        argv: [cat, /etc/sysctl.d/90-translogistica-rpfilter.conf]
+      register: archivo
+      changed_when: false
+
+    - name: Confirmar configuracion en memoria y en disco
+      ansible.builtin.assert:
+        that:
+          - valor.stdout | trim == '2'
+          - "'net.ipv4.conf.ens33.rp_filter = 2' in archivo.stdout"
+        success_msg: "rp_filter correcto en VMware y guardado en sysctl.d"
+        fail_msg: "Revisar rp_filter: debe estar en 2 y persistido en sysctl.d"
+
+    - name: Mostrar comprobacion
+      ansible.builtin.debug:
+        msg:
+          - "Interfaz: ens33"
+          - "Valor activo: {{ valor.stdout | trim }}"
+          - "Archivo persistente: /etc/sysctl.d/90-translogistica-rpfilter.conf"
+          - "Esta prueba NO modifica rutas, firewall ni configuracion del servidor."
