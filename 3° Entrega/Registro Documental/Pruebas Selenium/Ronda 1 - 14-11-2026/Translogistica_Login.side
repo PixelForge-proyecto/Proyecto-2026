@@ -1,0 +1,439 @@
+{
+  "id": "2dc1b7c0-2e8e-48e3-8131-c3a692fc4122",
+  "version": "2.0",
+  "name": "Translogistica - Login (Ronda 1)",
+  "url": "http://localhost:8090",
+  "tests": [
+    {
+      "id": "31ad6b98-bc4c-47c7-904d-bc1c21d6df34",
+      "name": "CP-01 Interno activo entra al panel",
+      "commands": [
+        {
+          "id": "cdcec067-882e-4e18-97fd-d624449c8532",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "9633aeb7-7651-456e-93cd-9be9589baf5b",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "prueba"
+        },
+        {
+          "id": "87ea834f-7129-4b24-8797-34e1a5c32b4d",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "302370e5-57a9-4fb8-b944-81c2b7240f6e",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "bc4d8ce9-be61-4cd3-b10c-b06b54debf8e",
+          "comment": "",
+          "command": "assertTitle",
+          "target": "Panel principal | Translogística",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "495f2b48-1789-4a64-99e2-419617b20fee",
+          "comment": "Botón Salir",
+          "command": "click",
+          "target": "css=form[action$=\"/logout\"] button",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "277695aa-1a4e-4269-9b13-4db63d98e2b1",
+      "name": "CP-02 Cliente activo entra al portal",
+      "commands": [
+        {
+          "id": "e52986c6-70d2-4a96-88bc-2691c5fb58a4",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "f38579fa-bfc4-40e8-9609-0485bbe3e97f",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "clienteprueba"
+        },
+        {
+          "id": "e29a2d0a-6a17-4d34-a645-d99f58e5c9f2",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "00d0cb03-97df-4343-9810-71e78162c1b1",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "347c8888-6b92-451d-a4f0-2ba00e10c61d",
+          "comment": "",
+          "command": "assertTitle",
+          "target": "Área del cliente | Translogística",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "495f2b48-1789-4a64-99e2-419617b20fee",
+          "comment": "Botón Salir",
+          "command": "click",
+          "target": "css=form[action$=\"/logout\"] button",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "1b1bea26-39e8-4beb-a727-46e175026396",
+      "name": "CP-05 Contraseña de 7 caracteres",
+      "commands": [
+        {
+          "id": "76156562-c76f-41d4-834c-749ba586756e",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "2776bab1-e96d-497c-a933-fd6b734e3037",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "prueba"
+        },
+        {
+          "id": "33a2f4a6-b608-43ec-a712-64984ae15588",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "a3ea1e6d-cd42-475f-af50-05662a613aab",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "4e3ad45e-1ae5-4ca0-91c5-d56f9ca61574",
+          "comment": "",
+          "command": "assertText",
+          "target": "css=.invalid-feedback",
+          "targets": [],
+          "value": "La contraseña debe tener al menos 8 caracteres."
+        }
+      ]
+    },
+    {
+      "id": "b6b72232-acad-4bfd-9c13-c75977a50b1f",
+      "name": "CP-10 Contraseña incorrecta",
+      "commands": [
+        {
+          "id": "6c702f5e-aa69-40bf-9b75-1d434c4decdb",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "d53a77ea-bc98-4e3f-ba58-3ebee1b58703",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "prueba"
+        },
+        {
+          "id": "534c9569-e983-4385-bc7f-26b7bb039ef7",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "272d4da4-ba47-443d-a5ef-7649d0059185",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "0d0b4112-af15-4369-b47e-4b1dc789b258",
+          "comment": "",
+          "command": "assertText",
+          "target": "css=.invalid-feedback",
+          "targets": [],
+          "value": "El usuario o la contraseña no son correctos."
+        }
+      ]
+    },
+    {
+      "id": "9daf5c8b-0d9c-4d13-8a91-9fba82f25278",
+      "name": "CP-11 Usuario inexistente",
+      "commands": [
+        {
+          "id": "35d1bb5e-1895-4b96-97e0-3bfb333a0bf7",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "7b45584a-9265-4f68-8565-b60dc327584f",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "usuarionoexiste"
+        },
+        {
+          "id": "9a738cae-3e81-4489-a293-6ac91d557932",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "5e572a0c-e645-4d85-aae4-f2a9d07507ea",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "28312698-4723-4bb5-b791-2ed031a78fe1",
+          "comment": "",
+          "command": "assertText",
+          "target": "css=.invalid-feedback",
+          "targets": [],
+          "value": "El usuario o la contraseña no son correctos."
+        }
+      ]
+    },
+    {
+      "id": "5d76ef37-c98d-4d7d-bbac-e44c70361870",
+      "name": "CP-12 Cuenta inactiva",
+      "commands": [
+        {
+          "id": "a7a4e748-ecd0-4fc8-820c-eb4b7fe69dca",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "e4e5f54d-ef2f-4e2a-97aa-afac0cc7ae0e",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "internoinactivo"
+        },
+        {
+          "id": "65e51982-b6dd-4a48-91f0-f44ec659df55",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "a351fbc6-f577-4205-b689-9b5099a974e9",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "acdef362-f35a-487a-9248-0b252ffc7609",
+          "comment": "",
+          "command": "assertText",
+          "target": "css=.invalid-feedback",
+          "targets": [],
+          "value": "El usuario o la contraseña no son correctos."
+        }
+      ]
+    },
+    {
+      "id": "e87865ed-5b11-465c-842e-46911993ffd9",
+      "name": "CP-13 Cliente no entra al panel",
+      "commands": [
+        {
+          "id": "2c8583d9-2fbd-4bb2-8030-6c122185901c",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "a49565fd-d8ce-40e3-954d-b8c05c39e794",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "clienteprueba"
+        },
+        {
+          "id": "9868224e-b274-419e-9bcf-42bf845ca273",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "c521defa-485b-4a97-8a8f-7c392ccb26f4",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "65de2bc0-e214-4a9e-8988-d10ba791495a",
+          "comment": "",
+          "command": "open",
+          "target": "/panel",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "1c2f7664-070a-4f35-a5b9-b0e7adac58be",
+          "comment": "",
+          "command": "assertTitle",
+          "target": "Área del cliente | Translogística",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "495f2b48-1789-4a64-99e2-419617b20fee",
+          "comment": "Botón Salir",
+          "command": "click",
+          "target": "css=form[action$=\"/logout\"] button",
+          "targets": [],
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "acebace4-8b1d-4175-97b2-69ceb08856fd",
+      "name": "CP-15 Salir muestra confirmación",
+      "commands": [
+        {
+          "id": "66f44222-1546-49a3-b4c5-a65dff9b543f",
+          "comment": "",
+          "command": "open",
+          "target": "/login",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "7cff80bd-b4af-4f0c-80dc-6cb38d67d037",
+          "comment": "",
+          "command": "type",
+          "target": "id=usuario",
+          "targets": [],
+          "value": "prueba"
+        },
+        {
+          "id": "543a1f4e-ff31-45c5-901b-d6e138e40bdc",
+          "comment": "",
+          "command": "type",
+          "target": "id=password",
+          "targets": [],
+          "value": "COMPLETAR_CONTRASEÑA"
+        },
+        {
+          "id": "f72f8f6b-4a2e-4bc2-9cb7-1844b15fdacd",
+          "comment": "",
+          "command": "click",
+          "target": "css=button[type=\"submit\"]",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "495f2b48-1789-4a64-99e2-419617b20fee",
+          "comment": "Botón Salir",
+          "command": "click",
+          "target": "css=form[action$=\"/logout\"] button",
+          "targets": [],
+          "value": ""
+        },
+        {
+          "id": "5972cee7-9193-4184-b7c7-d0ec1fd59482",
+          "comment": "",
+          "command": "assertText",
+          "target": "css=.alert-success",
+          "targets": [],
+          "value": "La sesión se cerró correctamente."
+        }
+      ]
+    }
+  ],
+  "suites": [
+    {
+      "id": "29ca1e53-0990-462a-8d29-6e7ed7215ed9",
+      "name": "Login - caja negra",
+      "persistSession": false,
+      "parallel": false,
+      "timeout": 300,
+      "tests": [
+        "31ad6b98-bc4c-47c7-904d-bc1c21d6df34",
+        "277695aa-1a4e-4269-9b13-4db63d98e2b1",
+        "1b1bea26-39e8-4beb-a727-46e175026396",
+        "b6b72232-acad-4bfd-9c13-c75977a50b1f",
+        "9daf5c8b-0d9c-4d13-8a91-9fba82f25278",
+        "5d76ef37-c98d-4d7d-bbac-e44c70361870",
+        "e87865ed-5b11-465c-842e-46911993ffd9",
+        "acebace4-8b1d-4175-97b2-69ceb08856fd"
+      ]
+    }
+  ],
+  "urls": [
+    "http://localhost:8090/"
+  ],
+  "plugins": []
+}

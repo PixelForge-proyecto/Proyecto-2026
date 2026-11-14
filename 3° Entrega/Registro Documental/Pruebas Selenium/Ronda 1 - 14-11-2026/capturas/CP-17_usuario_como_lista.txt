@@ -1,0 +1,9 @@
+CP-17 - Usuario enviado como lista (hallazgo OWASP ZAP del 07/11/2026)
+Fecha: 14/11/2026 - Version de la aplicacion: Translogistica-web.zip del 14/11/2026 (puerto 8090)
+
+Prueba: POST /login con usuario[]=x y password=Cualquiera1
+Respuesta del POST: 302 (vuelve al formulario)
+GET /login despues: 500 (error del servidor)
+
+Resultado: NO PASA. La vista del login sigue usando old(usuario) sin comprobar que sea texto.
+Correccion propuesta (informe ZAP 07/11): value="{{ is_string(old('usuario')) ? old('usuario') : '' }}"

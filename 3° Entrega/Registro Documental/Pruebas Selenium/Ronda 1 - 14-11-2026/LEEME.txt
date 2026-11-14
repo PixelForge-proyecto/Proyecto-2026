@@ -1,0 +1,21 @@
+RONDA 1 DE PRUEBAS - INICIO DE SESION (14/11/2026)
+
+Contenido:
+- Casos_de_prueba_Login_Ronda1.xlsx: los 18 casos, con resultado esperado, obtenido y evidencia.
+  Tiene columnas vacias para la Ronda 2.
+- capturas\: una captura por caso (CP-17 es un texto porque se probo enviando la peticion directamente).
+- Translogistica_Login.side: proyecto de Selenium IDE con 8 casos automatizados.
+
+Como usar el proyecto de Selenium IDE (sin programar):
+1. Instalar la extension "Selenium IDE" desde la tienda de Chrome o Edge.
+2. Abrir Docker Desktop y comprobar que la app abre en http://localhost:8090
+3. Abrir Selenium IDE > "Open an existing project" > elegir Translogistica_Login.side
+4. Elegir la suite "Login - caja negra" y tocar "Run all tests".
+   Cada caso queda en verde (paso) o rojo (fallo). Sacar captura del resultado para la evidencia.
+
+Los casos dependen del ESRE: si cambian los requisitos del login, revisar la columna "Requisito (ESRE)"
+y el resultado esperado antes de la Ronda 2.
+
+NOTA: en esta copia del repositorio las contraseñas de las cuentas de prueba del proyecto .side
+se reemplazaron por COMPLETAR_CONTRASEÑA. Antes de ejecutar, cargarlas en Selenium IDE
+(las tiene el equipo; no se publican).
