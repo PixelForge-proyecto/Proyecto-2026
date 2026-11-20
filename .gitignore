@@ -19,3 +19,20 @@
 backup_*.sql
 dump_*.sql
 **/respaldos/
+
+# Tercera entrega: archivos privados del despliegue y artefactos locales
+**/privado/
+**/imagenes/
+**/proxysql.cnf
+**/proxysql.unificado.cnf
+**/proxysql*.db
+**/datos_proxysql/
+**/datos_mysql/
+**/datos_mysql_secundario/
+*.dump
+*.sql.gz
+*.tar
+*.tgz
+**/*.p12
+**/*.pfx
+**/*.kdbx
